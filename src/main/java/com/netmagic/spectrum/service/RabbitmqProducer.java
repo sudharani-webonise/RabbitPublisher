@@ -19,5 +19,4 @@ public interface RabbitmqProducer {
      */
 
     void sendMessage(String queueName, String message) throws RabbitmqException;
-
 }

@@ -42,5 +42,4 @@ public class RabbitmqProducerImpl implements RabbitmqProducer {
             throw new RabbitmqException("Error in sending message to the queue or connection failed");
         }
     }
-
 }

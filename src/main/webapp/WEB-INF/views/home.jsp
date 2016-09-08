@@ -7,7 +7,6 @@
 <h1>
 	Hello world!  
 </h1>
-
 <P>  Wel-come to Rabbitmq procedure and consumer example..!!! </P>
 </body>
 </html>
