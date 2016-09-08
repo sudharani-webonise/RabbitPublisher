@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%d{"HH:mm:ss,SSS"} - %t %-5p %c{0} - %m%n</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="FILE"
+		class="ch.qos.logback.core.rolling.RollingFileAppender" >
+		<encoder>
+			<pattern>%d{"HH:mm:ss,SSS"} - %t %-5p %c{0} - %m%n</pattern>
+		</encoder>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${catalina.home}/logs/rabbitmq-%d{yyyy-MM-dd}.%i.log
+			</fileNamePattern>
+
+			<timeBasedFileNamingAndTriggeringPolicy
+				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>100MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+			<maxHistory>60</maxHistory>
+		</rollingPolicy>
+	</appender>
+
+	<logger name="com.netmagic.spectrum.*" level="DEBUG" />
+
+	<root level="INFO">
+		<appender-ref ref="FILE" />
+		<appender-ref ref="CONSOLE" />
+	</root>
+</configuration>
