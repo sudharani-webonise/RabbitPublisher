@@ -4,9 +4,9 @@
 </head>
 <body>
 <h1>
-	ERROR
+	WARN
 </h1>
 
-<P>  error </P>
+<P>  Queue already in listener </P>
 </body>
 </html>

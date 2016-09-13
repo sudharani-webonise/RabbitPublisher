@@ -14,7 +14,7 @@ import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.netmagic.spectrum.service.impl.RabbimqConsumer;
+import com.netmagic.spectrum.service.impl.RabbtimqConsumerImpl;
 
 /**
  * 
@@ -39,8 +39,7 @@ public class RabbitMQConfig {
     private static final String PASSWORD = "guest";
     private static final String RABBIT_HOST = "localhost";
 
-    private static final String QUEUE_NAME_TEST = "ticket";
-    private static final String QUEUE_NAME_MYQUEUE = "outstanding";
+    private static final String QUEUE_NAME_TICKET = "ticket";
 
     private static final String NM_TOPIC_NANE = "MyNetmagic";
 
@@ -71,23 +70,17 @@ public class RabbitMQConfig {
     }
 
     @Bean
-    public Queue queueTest() {
-        return new Queue(QUEUE_NAME_TEST);
-    }
-
-    @Bean
-    public Queue queueMyQueue() {
-        return new Queue(QUEUE_NAME_MYQUEUE);
+    public Queue queueTicket() {
+        return new Queue(QUEUE_NAME_TICKET);
     }
 
     @Bean
     public SimpleMessageListenerContainer listenerContainer() {
         SimpleMessageListenerContainer messageListener = new SimpleMessageListenerContainer();
         messageListener.setConnectionFactory(connectionFactory());
-        messageListener.setQueues(queueTest(), queueMyQueue());
-        messageListener.setMessageListener(new RabbimqConsumer());
+        messageListener.setQueues(queueTicket());
+        messageListener.setMessageListener(new RabbtimqConsumerImpl());
         messageListener.setAcknowledgeMode(AcknowledgeMode.AUTO);
         return messageListener;
     }
-
 }
