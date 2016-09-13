@@ -1,4 +1,3 @@
-<%@ page session="false" %>
 <html>
 <head>
 	<title>Error</title>
@@ -8,6 +7,6 @@
 	ERROR
 </h1>
 
-<P>  error while sending message to rabbit-mq </P>
+<P>  error </P>
 </body>
 </html>
