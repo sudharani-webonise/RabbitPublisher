@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.netmagic.spectrum.commons.ViewName;
 import com.netmagic.spectrum.exception.RabbitmqException;
 import com.netmagic.spectrum.service.RabbitmqProducer;
 import com.netmagic.spectrum.service.RabbtimqConsumer;
@@ -26,13 +27,10 @@ public class RabbitmqController {
     @RequestMapping(value = "/send", method = RequestMethod.GET)
     public String rabbitmqProducer(@RequestParam("queueName") String queueName, @RequestParam("message") String message) {
         try {
-            logger.info("SENDING MESSAGE ");
-            rabbimqProducer.sendMessage(queueName, message);
-            logger.info(" MESSAGE SENT TO QUEUE = {}", queueName);
-            return "sent";
+            return rabbimqProducer.sendMessage(queueName, message);
         } catch (RabbitmqException ex) {
             logger.error("ERROR OCCURED WHILE SENDING MESSAGE : ", ex);
-            return "error";
+            return ViewName.ERROR.getViewName();
         }
     }
 
@@ -42,7 +40,7 @@ public class RabbitmqController {
             return rabbitmqListener.listenQueue(queueName);
         } catch (RabbitmqException ex) {
             logger.error("ERROR IN PUBLISHING MESSAGE: ", ex);
-            return "error";
+            return ViewName.ERROR.getViewName();
         }
     }
 }

@@ -14,7 +14,7 @@ import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.netmagic.spectrum.service.impl.RabbtimqConsumerImpl;
+import com.netmagic.spectrum.service.impl.RabbitmqConsumerImpl;
 
 /**
  * 
@@ -79,7 +79,7 @@ public class RabbitMQConfig {
         SimpleMessageListenerContainer messageListener = new SimpleMessageListenerContainer();
         messageListener.setConnectionFactory(connectionFactory());
         messageListener.setQueues(queueTicket());
-        messageListener.setMessageListener(new RabbtimqConsumerImpl());
+        messageListener.setMessageListener(new RabbitmqConsumerImpl());
         messageListener.setAcknowledgeMode(AcknowledgeMode.AUTO);
         return messageListener;
     }
