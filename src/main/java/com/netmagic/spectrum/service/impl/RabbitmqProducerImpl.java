@@ -10,6 +10,7 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.netmagic.spectrum.commons.ViewName;
 import com.netmagic.spectrum.exception.RabbitmqException;
 import com.netmagic.spectrum.service.RabbitmqProducer;
 
@@ -22,7 +23,7 @@ public class RabbitmqProducerImpl implements RabbitmqProducer {
     private RabbitAdmin rabbitAdmin;
 
     @Autowired
-    private RabbitTemplate template;
+    private RabbitTemplate rabbitTemplate;
 
     @Autowired
     private TopicExchange topicExchaneName;
@@ -30,17 +31,22 @@ public class RabbitmqProducerImpl implements RabbitmqProducer {
     private Queue queue;
 
     @Override
-    public void sendMessage(String queueName, String message) {
+    public String sendMessage(String queueName, String message) {
         try {
-            queue = new Queue(queueName);
-            rabbitAdmin.declareQueue(queue);
-            rabbitAdmin.declareExchange(topicExchaneName);
-            rabbitAdmin.declareBinding(BindingBuilder.bind(queue).to(topicExchaneName).with(queueName));
-            template.convertAndSend(topicExchaneName.getName(), queueName, message);
+            if ( queueName != null && !queueName.isEmpty() ) {
+                queue = new Queue(queueName);
+                rabbitAdmin.declareQueue(queue);
+                rabbitAdmin.declareBinding(BindingBuilder.bind(queue).to(topicExchaneName).with(queueName));
+                rabbitTemplate.convertAndSend(topicExchaneName.getName(), queueName, message);
+                logger.info(" MESSAGE SENT TO QUEUE = {}", queueName);
+                return ViewName.SENT.getViewName();
+            } else {
+                logger.warn(" unable to send queue is null or empty");
+                return ViewName.WARNING.getViewName();
+            }
         } catch (Exception ex) {
             logger.error("ERROR OCCURED WHILE SENDING MESSAGE : ", ex);
             throw new RabbitmqException("Error in sending message to the queue or connection failed");
         }
     }
-
 }

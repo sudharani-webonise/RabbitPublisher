@@ -10,6 +10,7 @@ import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.netmagic.spectrum.commons.ViewName;
 import com.netmagic.spectrum.exception.RabbitmqException;
 import com.netmagic.spectrum.service.RabbtimqConsumer;
 
@@ -24,9 +25,9 @@ import com.netmagic.spectrum.service.RabbtimqConsumer;
  * 
  */
 @Service
-public class RabbtimqConsumerImpl implements RabbtimqConsumer, MessageListener {
+public class RabbitmqConsumerImpl implements RabbtimqConsumer, MessageListener {
 
-    private static final Logger logger = LoggerFactory.getLogger(RabbtimqConsumerImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(RabbitmqConsumerImpl.class);
 
     @Autowired
     private SimpleMessageListenerContainer messageListener;
@@ -37,14 +38,14 @@ public class RabbtimqConsumerImpl implements RabbtimqConsumer, MessageListener {
             boolean isQueueInListener = Arrays.asList(messageListener.getQueueNames()).contains(queueName);
             if ( queueName != null && !queueName.isEmpty() && !isQueueInListener ) {
                 messageListener.addQueueNames(queueName);
-                return "home";
+                return ViewName.HOME.getViewName();
             } else {
                 logger.warn("queue name cannot be null/empty or queue already in message listener");
-                return "warning";
+                return ViewName.WARNING.getViewName();
             }
         } catch (RabbitmqException ex) {
             logger.error("ERROR IN PUBLISHING MESSAGE: ", ex);
-            return "error";
+            return ViewName.ERROR.getViewName();
         }
 
     }

@@ -18,6 +18,6 @@ public interface RabbitmqProducer {
      * @author Sudharani
      */
 
-    void sendMessage(String queueName, String message) throws RabbitmqException;
+    String sendMessage(String queueName, String message) throws RabbitmqException;
 
 }

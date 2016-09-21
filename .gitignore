@@ -6,5 +6,4 @@
 .springBeans
 /src/main/resources/application-development.properties
 /catalina.home_IS_UNDEFINED
-spectrum-api.iml
-
+rabbit-producer-consumer.iml
